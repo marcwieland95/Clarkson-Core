@@ -21,8 +21,8 @@ class Clarkson_Core_Templates {
 		}
 
 		if( isset( $wp_query->query_vars['json'] ) ) {
-			if( count($objects) === 1 && isset( $objects[0]) ){
-				$objects = $objects[0];
+			if( count($objects) === 1 && isset( $objects['objects'][0] ) ){
+				$objects = reset( $objects['objects'][0] );
 			}
 			$this->echo_json($objects);
 		}
@@ -100,11 +100,7 @@ class Clarkson_Core_Templates {
 
 		$objects = $this->retrieve_object($objects);
 
-		$json = array_map(function ($object) {
-    		if( method_exists($object, 'get_json') )
-    			return $object->get_json();
-		}, $objects);
-		return json_encode($json, JSON_PRETTY_PRINT);
+		return json_encode($objects, JSON_PRETTY_PRINT);
 	}
 
 
